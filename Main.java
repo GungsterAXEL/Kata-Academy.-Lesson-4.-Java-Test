@@ -64,6 +64,7 @@ public class Main {
                 resultText.deleteCharAt(i);
             }
         }
+        scanner.close();
         if (count > 0) return resultText.toString().replaceAll("\\+", "!") + " " + sum;
         return resultText.toString().replaceAll("\\+", "!");
     }
