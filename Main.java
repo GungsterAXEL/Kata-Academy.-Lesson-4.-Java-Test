@@ -15,42 +15,54 @@ public class Main {
     public static String textModifier() {
         //1. Ввод текста.
         Scanner scanner = new Scanner(System.in);
-        String inputedText = scanner.nextLine().trim();
+        String inputText = scanner.nextLine().trim();
 
         // 2.
         // a. Удаляем лишние пробелы.
-        StringBuilder spaceClearedText = new StringBuilder();
+        StringBuilder resultText = new StringBuilder();
         boolean wasSpace = false;
 
-        for (char c : inputedText.toCharArray()) {
+        for (char c : inputText.toCharArray()) {
             if (c == ' ') {
                 if (!wasSpace) {
-                    spaceClearedText.append(c);
+                    resultText.append(c);
                     wasSpace = true;
                 }
             } else {
-                spaceClearedText.append(c);
+                resultText.append(c);
                 wasSpace = false;
             }
         }
 
         // b. Обрабатываем минус.
-        for (int i = 0; i < spaceClearedText.length(); i++) {
-            char c = spaceClearedText.charAt(i);
+        for (int i = 0; i < resultText.length(); i++) {
+            char c = resultText.charAt(i);
 
-            if (i > 0 && i < spaceClearedText.length() - 1) {
+            if (i > 0 && i < resultText.length() - 1) {
                 if (c == '-') {
-                    char leftChar = spaceClearedText.charAt(i - 1);
-                    char rightChar = spaceClearedText.charAt(i + 1);
+                    char leftChar = resultText.charAt(i - 1);
+                    char rightChar = resultText.charAt(i + 1);
 
-                    spaceClearedText.setCharAt(i - 1, rightChar);
-                    spaceClearedText.setCharAt(i, leftChar);
+                    resultText.setCharAt(i - 1, rightChar);
+                    resultText.setCharAt(i, leftChar);
                     i++;
-                    spaceClearedText.deleteCharAt(i);
+                    resultText.deleteCharAt(i);
                 }
             }
         }
         // c. Обрабатываем плюс в строке возврата результата.
-        return spaceClearedText.toString().replaceAll("\\+", "!"); // Возвращаем результат.
+        // d. Узнаём сумму цифр, если таковые присутствуют.
+        int sum = 0;
+        int count = 0;
+        for (int i = 0; i < resultText.length(); i++) {
+            char c = resultText.charAt(i);
+            if (Character.isDigit(c)) {
+                sum += Character.getNumericValue(c);
+                count++;
+                resultText.deleteCharAt(i);
+            }
+        }
+        if (count > 0) return resultText.toString().replaceAll("\\+", "!") + " " + sum;
+        return resultText.toString().replaceAll("\\+", "!");
     }
 }
