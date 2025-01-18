@@ -34,7 +34,7 @@ public class Main {
             }
         }
 
-        //      b. Обрабатываем минус.
+        // b. Обрабатываем минус.
         for (int i = 0; i < spaceClearedText.length(); i++) {
             char c = spaceClearedText.charAt(i);
 
@@ -50,6 +50,7 @@ public class Main {
                 }
             }
         }
-        return spaceClearedText.toString().replaceAll("-",""); // Возвращаем результат.
+        // c. Обрабатываем плюс в строке возврата результата.
+        return spaceClearedText.toString().replaceAll("\\+", "!"); // Возвращаем результат.
     }
 }
