@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Main {
@@ -37,35 +38,36 @@ public class Main {
         // b. Обрабатываем минус.
         for (int i = 0; i < resultText.length(); i++) {
             char c = resultText.charAt(i);
-
-            if (i > 0 && i < resultText.length() - 1) {
-                if (c == '-') {
+            if (c == '-') {
+                if (i > 0 && i < resultText.length() - 1) {
                     char leftChar = resultText.charAt(i - 1);
                     char rightChar = resultText.charAt(i + 1);
-
                     resultText.setCharAt(i - 1, rightChar);
-                    resultText.setCharAt(i, leftChar);
-                    i++;
-                    resultText.deleteCharAt(i);
+                    resultText.setCharAt(i + 1, leftChar);
                 }
+                resultText.deleteCharAt(i);
             }
         }
 
-        // c. Обрабатываем плюс в строке возврата результата.
+        // c. Обрабатываем плюс.
+        for (int i = 0; i < resultText.length(); i++) {
+            if (resultText.charAt(i) == '+') resultText.setCharAt(i, '!');
+        }
 
         // d. Узнаём сумму цифр, если таковые присутствуют.
-        int sum = 0;
-        int count = 0;
-        for (int i = 0; i < resultText.length(); i++) {
+        int sum = 0, count = 0;
+        for (int i = 0; i < resultText.length(); ) {
             char c = resultText.charAt(i);
             if (Character.isDigit(c)) {
                 sum += Character.getNumericValue(c);
                 count++;
                 resultText.deleteCharAt(i);
-            }
+            } else i++;
         }
+
+        if (count > 0) resultText.append(" ").append(sum);
         scanner.close();
-        if (count > 0) return resultText.toString().replaceAll("\\+", "!") + " " + sum;
-        return resultText.toString().replaceAll("\\+", "!");
+
+        return resultText.toString();
     }
 }
